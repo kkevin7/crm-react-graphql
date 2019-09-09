@@ -27,6 +27,7 @@ enum TipoCliente {
 }
 
 type Query {
+  getClientes : [Cliente]
   getCliente(id: ID): Cliente
 }
 
@@ -62,6 +63,8 @@ type Mutation {
    Te permite crear nuevos clientes
   """
   crearCliente(input: ClienteInput): Cliente
-
+  """ Te permite actualizar los datos de los clientes """
   actualizarCliente(input: ClienteInput) : Cliente
+  """ Te permite borrar los registros de los clientes """
+  eliminarCliente(id: ID! ) : String
 }

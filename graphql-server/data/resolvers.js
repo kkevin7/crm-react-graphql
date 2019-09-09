@@ -4,6 +4,9 @@ import { rejects } from 'assert';
 
 export const resolvers = {
   Query: {
+    getClientes: () => {
+      return Clientes.find({})
+    },
     getCliente: ({ id }) => {
       return new Cliente(id, clientesDB[id]);
     }
@@ -34,6 +37,14 @@ export const resolvers = {
           if(error) rejects(error);
           else resolve(cliente);
         });
+      });
+    },
+    eliminarCliente: (root, {id}) => {
+      return new Promise((resolve, rejects) => {
+        Clientes.findOneAndRemove({_id: id}, (error) =>{
+          if(error) rejects(error);
+          else resolve("Se eliminó correctamente");
+        })
       });
     }
   }

@@ -2,11 +2,15 @@ import mongoose from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
+// mongoose.connect('mongodb://localhost:27017/clientes', {
+//     useNewUrlParser: true,
+//     "auth": { "authSource": "admin" },
+//     "user": "root",
+//     "pass": "12345",
+//   }).catch(error => console.log(error));
+
 mongoose.connect('mongodb://localhost:27017/clientes', {
-    useNewUrlParser: true,
-    "auth": { "authSource": "admin" },
-    "user": "root",
-    "pass": "12345",
+    useNewUrlParser: true
   }).catch(error => console.log(error));
 
 const clientesSchema = new mongoose.Schema({
