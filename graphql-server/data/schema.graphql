@@ -50,10 +50,11 @@ input ClienteInput {
   pedidos: [PedidoInput]!
 }
 
-"""" Consultas de clientes a la base de datos """
+""" Consultas de clientes a la base de datos """
 type Query {
   """ Permite obtener todos lo registro o un registro especifico """
   getClientes(limite: Int) : [Cliente]
+  """ Buscar un cliente en base a un ID """
   getCliente(id: ID): Cliente
 }
 
