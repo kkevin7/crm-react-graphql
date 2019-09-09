@@ -26,10 +26,6 @@ enum TipoCliente {
   PRIMIUM
 }
 
-type Query {
-  getClientes : [Cliente]
-  getCliente(id: ID): Cliente
-}
 
 input PedidoInput {
   producto: String
@@ -52,6 +48,13 @@ input ClienteInput {
   edad: Int!
   tipo: TipoCliente!
   pedidos: [PedidoInput]!
+}
+
+"""" Consultas de clientes a la base de datos """
+type Query {
+  """ Permite obtener todos lo registro o un registro especifico """
+  getClientes(limite: Int) : [Cliente]
+  getCliente(id: ID): Cliente
 }
 
 """
