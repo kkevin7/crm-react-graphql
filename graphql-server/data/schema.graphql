@@ -23,7 +23,7 @@ Asigna la categoria del cliente
 """
 enum TipoCliente {
   BASICO
-  PRIMIUM
+  PREMIUM
 }
 
 
@@ -47,7 +47,7 @@ input ClienteInput {
   email: String!
   edad: Int!
   tipo: TipoCliente!
-  pedidos: [PedidoInput]!
+  pedidos: [PedidoInput]
 }
 
 """ Consultas de clientes a la base de datos """

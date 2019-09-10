@@ -1,14 +1,16 @@
 import React, { Component, Fragment } from "react";
+import {NUEVO_CLIENTE} from '../../mutations';
+import {Mutation } from 'react-apollo';
 
 class NuevoCliente extends Component {
   state = {
     cliente: {
-      nombre: "",
-      apellido: "",
-      empresa: "",
-      edad: "",
-      email: "",
-      tipo: ""
+      nombre: '',
+      apellido: '',
+      empresa: '',
+      edad: '',
+      email: '',
+      tipo: ''
     }
   };
   render() {
@@ -16,6 +18,8 @@ class NuevoCliente extends Component {
       <Fragment>
         <h2 className="text-center">Nuevo Cliente</h2>
         <div className="row justify-content-center">
+          <Mutation mutation={NUEVO_CLIENTE}>
+            {crearCliente => ( 
           <form
             className="col-md-8 m-3"
             onSubmit={e => {
@@ -38,7 +42,11 @@ class NuevoCliente extends Component {
                 email
               };
 
-              console.log(input);
+              console.log(input)
+
+              crearCliente({
+                variables: {input}
+              })
             }}
           >
             <div className="form-row">
@@ -149,6 +157,8 @@ class NuevoCliente extends Component {
               Guardar Cambios
             </button>
           </form>
+          )}
+          </Mutation>
         </div>
       </Fragment>
     );
