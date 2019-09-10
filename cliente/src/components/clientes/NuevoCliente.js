@@ -1,16 +1,46 @@
 import React, { Component, Fragment } from "react";
 
 class NuevoCliente extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {
+    cliente: {
+      nombre: "",
+      apellido: "",
+      empresa: "",
+      edad: "",
+      email: "",
+      tipo: ""
+    }
+  };
   render() {
     return (
       <Fragment>
         <h2 className="text-center">Nuevo Cliente</h2>
         <div className="row justify-content-center">
-          <form className="col-md-8 m-3">
+          <form
+            className="col-md-8 m-3"
+            onSubmit={e => {
+              e.preventDefault();
+              const {
+                nombre,
+                apellido,
+                empresa,
+                edad,
+                tipo,
+                email
+              } = this.state.cliente;
+
+              const input = {
+                nombre,
+                apellido,
+                empresa,
+                edad: Number(edad),
+                tipo,
+                email
+              };
+
+              console.log(input);
+            }}
+          >
             <div className="form-row">
               <div className="form-group col-md-6">
                 <label>Nombre</label>
@@ -18,6 +48,14 @@ class NuevoCliente extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Nombre"
+                  onChange={e => {
+                    this.setState({
+                      cliente: {
+                        ...this.state.cliente,
+                        nombre: e.target.value
+                      }
+                    });
+                  }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -26,6 +64,14 @@ class NuevoCliente extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Apellido"
+                  onChange={e => {
+                    this.setState({
+                      cliente: {
+                        ...this.state.cliente,
+                        apellido: e.target.value
+                      }
+                    });
+                  }}
                 />
               </div>
             </div>
@@ -36,6 +82,14 @@ class NuevoCliente extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Empresa"
+                  onChange={e => {
+                    this.setState({
+                      cliente: {
+                        ...this.state.cliente,
+                        empresa: e.target.value
+                      }
+                    });
+                  }}
                 />
               </div>
               <div className="form-group col-md-6">
@@ -44,6 +98,14 @@ class NuevoCliente extends Component {
                   type="email"
                   className="form-control"
                   placeholder="Email"
+                  onChange={e => {
+                    this.setState({
+                      cliente: {
+                        ...this.state.cliente,
+                        email: e.target.value
+                      }
+                    });
+                  }}
                 />
               </div>
             </div>
@@ -54,11 +116,29 @@ class NuevoCliente extends Component {
                   type="text"
                   className="form-control"
                   placeholder="Edad"
+                  onChange={e => {
+                    this.setState({
+                      cliente: {
+                        ...this.state.cliente,
+                        edad: e.target.value
+                      }
+                    });
+                  }}
                 />
               </div>
               <div className="form-group col-md-6">
                 <label>Tipo Cliente</label>
-                <select className="form-control">
+                <select
+                  className="form-control"
+                  onChange={e => {
+                    this.setState({
+                      cliente: {
+                        ...this.state.cliente,
+                        tipo: e.target.value
+                      }
+                    });
+                  }}
+                >
                   <option value="">Elegir...</option>
                   <option value="PREMIUM">PREMIUM</option>
                   <option value="BASICO">BÁSICO</option>
