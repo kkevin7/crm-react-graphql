@@ -6,7 +6,6 @@ mutation crearCliente($input: ClienteInput){
   crearCliente(input: $input){
     nombre
     apellido
-    email
   }
 }
 `;
