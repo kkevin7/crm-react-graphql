@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {ACTUALIZAR_CLIENTE} from '../../mutations';
+import {Mutation} from 'react-apollo';
+import {withRouter} from 'react-router-dom';
 
 class FormularioEditar extends Component {
 
@@ -36,7 +39,31 @@ class FormularioEditar extends Component {
            
             return (
         
-                   <form className="col-md-8 m-3">
+                   <Mutation 
+                        mutation={ACTUALIZAR_CLIENTE}
+                        onCompleted={() => this.props.refetch().then(() => {
+                            this.props.history.push('/')
+                        })}
+                   >
+                       {actualizarCliente => (
+                       <form className="col-md-8 m-3" onSubmit={e => {
+                           e.preventDefault();
+                           const {id, nombre, apellido, empresa, edad, tipo} = this.state.cliente;
+                           const {emails} = this.state;
+                           const input = {
+                               id,
+                               nombre,
+                               apellido,
+                               empresa,
+                               emails,
+                               edad: Number(edad),
+                               tipo
+                           }
+
+                           actualizarCliente({
+                               variables: {input}
+                           });
+                       }}>
                             <div className="form-row">
                                 <div className="form-group col-md-6">
                                     <label>Nombre</label>
@@ -160,9 +187,11 @@ class FormularioEditar extends Component {
                             </div>
                             <button type="submit" className="btn btn-success float-right">Guardar Cambios</button>
                         </form>
+                        )}
+                   </Mutation>
             )      
     }
 }
  
 
-export default FormularioEditar;
+export default withRouter(FormularioEditar);
