@@ -24,3 +24,9 @@ export const ACTUALIZAR_CLIENTE = gql`
     }
   }
 `;
+
+export const ELIMINAR_CLIENTE = gql`
+  mutation eliminarCliente($id: ID!) {
+    eliminarCliente(id: $id)
+  }
+`;
