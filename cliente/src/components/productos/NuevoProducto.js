@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import {NUEVO_PRODUCTO} from '../../mutations'
+import {Mutation} from 'react-apollo';
 
 class NuevoProducto extends Component {
 
@@ -21,13 +23,35 @@ class NuevoProducto extends Component {
         return noValido;
     }
 
+    crearNuevoProducto = (e, nuevoProducto) => {
+        e.preventDefault();
+        //insetamos en la base de datos
+        nuevoProducto().then( data => {
+            console.log(data);
+        })
+    }
+
     render() {
+        const {nombre, precio, stock} = this.state;
+        const input = {
+            nombre,
+            precio: Number(precio),
+            stock: Number(stock)
+        }
+        console.log(input);
         return (
             <Fragment>
                 <h1 className="text-center mb-5">Nuevo Productos</h1>
                 <div className="row justify-content-center">
+                    <Mutation 
+                        mutation={NUEVO_PRODUCTO}
+                        variables={{input}}
+                        >
+                        {(nuevoProducto, {loading, error, data}) => {
+                            return(
                     <form
                         className="col-md-8"
+                        onSubmit={e => this.crearNuevoProducto(e, nuevoProducto)}
                     >
                         <div className="form-group">
                             <label>Nombre:</label>
@@ -48,6 +72,7 @@ class NuevoProducto extends Component {
                                 <input
                                     type="number"
                                     name="precio"
+                                    step="0.01"
                                     className="form-control"
                                     placeholder="Precio del Producto"
                                     onChange={this.actualizarState}
@@ -71,6 +96,9 @@ class NuevoProducto extends Component {
                             Crear Producto
                             </button>
                     </form>
+                                 )
+                                } }
+                    </Mutation>
                 </div>
             </Fragment>
         );
