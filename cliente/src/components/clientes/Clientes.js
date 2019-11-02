@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { CLIENTES_QUERY } from "../../queries/index";
 import { ELIMINAR_CLIENTE } from "../../mutations";
 
-import Paginador from './Paginador';
+import Paginador from '../Paginador';
 
 class Clientes extends Component {
 
