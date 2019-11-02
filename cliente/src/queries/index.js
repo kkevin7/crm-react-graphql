@@ -43,3 +43,14 @@ query{
   }
 }
 `;
+
+export const OBTENER_PRODUCTO = gql`
+query obtenerProducto($id: ID!){
+  obtenerProducto(id: $id){
+    id
+    nombre
+    precio
+    stock
+  }
+}
+`;
