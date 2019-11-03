@@ -26,6 +26,7 @@ const Resumen = (props) => {
                                 producto={producto}
                                 index={index}
                                 actualizarCantidad={props.actualizarCantidad}
+                                eliminarProducto={props.eliminarProducto}
                             />
                         ))}
                     </tbody>

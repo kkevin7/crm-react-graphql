@@ -23,33 +23,48 @@ class ContenidoPedido extends Component {
     }
 
     actualizarCantidad = (cantidad, index) =>{
-        // console.log(cantidad)
-        let nuevoTotal =0;
-
+        
         // leer el state de productos
         const productos = this.state.productos;
+        
+        // aregar la cantidad desde la interfaz
+        productos[index].cantidad = Number(cantidad);
+
+        this.setState({
+            productos,
+        }, () => {
+            this.actualizarTotal()
+        })
+    }
+
+    actualizarTotal = () =>{
+        const productos = this.state.productos;
+
         if(productos.length === 0){
             this.setState({
-                total: nuevoTotal
+                total: 0
             });
             return;
         }
 
-        // aregar la cantidad desde la interfaz
-        productos[index].cantidad = Number(cantidad);
+        let nuevoTotal =0;
 
         // realizar la opéracion de cantidad x precio
         productos.map(producto => nuevoTotal += (producto.cantidad * producto.precio));
 
-        //actualizar la cantidad de productos
-
-        //validadmos
-
-        //agregamos al state
         this.setState({
-            productos,
             total: nuevoTotal.toFixed(2)
-        })
+        });
+    }
+
+    eliminarProducto  = (id) =>{
+        const productos = this.state.productos;
+        const productosRestantes = productos.filter(producto => producto.id !== id);
+        this.setState({
+            productos: productosRestantes
+        }, () => {
+            this.actualizarTotal();
+        });
     }
 
     render() {
@@ -64,10 +79,12 @@ class ContenidoPedido extends Component {
                 placeholder="Seleccionar Productos"
                 getOptionValue={(options) => options.id}
                 getOptionLabel={(options) => options.nombre}
+                value={this.state.productos}
              />
              <Resumen
                 productos={this.state.productos}
                 actualizarCantidad={this.actualizarCantidad}
+                eliminarProducto={this.eliminarProducto}
              />
              <p className="font-weight-bold float-right">
                  Total: <span className="font-weight-normal">
