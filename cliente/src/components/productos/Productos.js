@@ -5,16 +5,40 @@ import {ELIMINAR_PRODUCTO} from '../../mutations';
 import {Link} from 'react-router-dom';
 import { from } from 'zen-observable';
 import Exito from '../alertas/Exito'
+import Paginador from '../Paginador';
 
 class Productos extends Component {
 
+    limite = 5;
     state = {  
         alerta: {
             mostrar: false,
             mensaje: ''
-        }
-
+        },
+        paginador: {
+            offset: 0,
+            actual: 1
+          }
     };
+
+
+  paginaAnterior = () =>{
+    this.setState({
+      paginador: {
+        offset : this.state.paginador.offset -this.limite,
+        actual: this.state.paginador.actual -1
+      }
+    })
+}
+paginaSiguiente = () => {
+    this.setState({
+      paginador: {
+        offset : this.state.paginador.offset +this.limite,
+        actual: this.state.paginador.actual +1
+      }
+    })
+}
+
     render() {
         const {alerta: {mostrar, mensaje}} = this.state;
         const alerta = (mostrar) ? <Exito mensaje={mensaje} /> : '';
@@ -23,13 +47,14 @@ class Productos extends Component {
             <Fragment>
                 <h1 className="text-center mb-5">Productos</h1>
                 {alerta}
-               <Query query={OBTENER_PRODUCTOS} pollInterval={1000} >
+               <Query query={OBTENER_PRODUCTOS} pollInterval={1000} variables={{limite: this.limite, offset: this.state.paginador.offset}}>
         {({ loading, error, data, startPolling, stopPolling }) => {
           if (loading) return "Cargando...";
           if (error) error`Error: ${error.message}`;
           console.log(data);
           
           return (
+              <Fragment>
             <table className="table">
                 <thead>
                     <tr className="table-primary">
@@ -96,6 +121,14 @@ class Productos extends Component {
                     })}
                 </tbody>
             </table>
+            <Paginador
+            actual={this.state.paginador.actual}
+            total={data.totalProductos}
+            limite={this.limite}
+            paginaAnterior={this.paginaAnterior}
+            paginaSiguiente={this.paginaSiguiente}
+          />
+          </Fragment>
           )
         }}
         </Query>

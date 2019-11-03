@@ -1,23 +1,26 @@
 import React, {Component, Fragment } from "react";
 import { Query, Mutation } from "react-apollo";
 import { Link } from "react-router-dom";
-
 //Queries
 import { CLIENTES_QUERY } from "../../queries/index";
 import { ELIMINAR_CLIENTE } from "../../mutations";
 
 import Paginador from '../Paginador';
+import Exito from '../alertas/Exito'
 
 class Clientes extends Component {
 
   limite = 5;
-
-  state = {
-    paginador: {
-      offset: 0,
-      actual: 1
-    }
-  }
+  state = {  
+        alerta: {
+            mostrar: false,
+            mensaje: ''
+        },
+        paginador: {
+            offset: 0,
+            actual: 1
+          }
+    };
 
   paginaAnterior = () =>{
     this.setState({
@@ -37,6 +40,9 @@ paginaSiguiente = () => {
 }
 
   render() {
+    const {alerta: {mostrar, mensaje}} = this.state;
+    const alerta = (mostrar) ? <Exito mensaje={mensaje} /> : '';
+
     return (
       <Query query={CLIENTES_QUERY} pollInterval={1000} variables={{limite: this.limite, offset: this.state.paginador.offset}}>
         {({ loading, error, data, startPolling, stopPolling }) => {
@@ -46,6 +52,7 @@ paginaSiguiente = () => {
           return (
             <Fragment>
               <h2 className="text-center">Listado Clientes</h2>
+              {alerta}
               <ul className="list-group mt-4">
                 {data.getClientes.map(item => {
                   const { id } = item;
@@ -57,7 +64,28 @@ paginaSiguiente = () => {
                           {item.nombre} {item.apellido} - {item.empresa}
                         </div>
                         <div className="col-md-4 d-flex justify-content-end">
-                          <Mutation mutation={ELIMINAR_CLIENTE}>
+                          <Mutation 
+                            mutation={ELIMINAR_CLIENTE}
+                            onCompleted={(data) => {
+                            // console.log(data)
+                            this.setState({
+                                alerta: {
+                                    mostrar: true,
+                                    mensaje: data.eliminarCliente
+                                }
+                            }, () => {
+                                setTimeout(() => {
+                                    this.setState({
+                                        alerta:{
+                                            mostrar: false,
+                                            mensaje: ''
+                                        }
+                                    })
+                                }, 3000)
+                            })
+                        }}
+                          
+                          >
                             {eliminarCliente => (
                               <button
                                 type="button"
@@ -79,7 +107,7 @@ paginaSiguiente = () => {
                             )}
                           </Mutation>
                           <Link
-                            to={`/cliente/editar/${item.id}`}
+                            to={`/clientes/editar/${item.id}`}
                             className="btn btn-success d-block d-md-inline-block"
                           >
                             Editar Cliente
@@ -92,7 +120,7 @@ paginaSiguiente = () => {
               </ul>
               <Paginador
                 actual={this.state.paginador.actual}
-                totalClientes={data.totalClientes}
+                total={data.totalClientes}
                 limite={this.limite}
                 paginaAnterior={this.paginaAnterior}
                 paginaSiguiente={this.paginaSiguiente}

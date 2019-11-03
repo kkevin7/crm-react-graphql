@@ -71,10 +71,11 @@ type Query {
   """ Buscar un cliente en base a un ID """
   getCliente(id: ID): Cliente
   """" Count the record of request"""
-  totalClientes : String
+  totalClientes: String
   #Productos
   obtenerProductos(limite: Int, offset: Int) : [Producto]
   obtenerProducto(id: ID!) : Producto
+  totalProductos: String
 }
 
 
