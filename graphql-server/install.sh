@@ -18,3 +18,6 @@ npm i --save mongoose
 
 #Servidor Apollo
 npm i --save apollo-server-express
+
+#Select 
+npm i --save react-select
