@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/clientes', {
 //   useNewUrlParser: true
 // }).catch(error => console.log(error));
 
-mongoose.set('setFindAndModify', false);
+mongoose.set('useFindAndModify', false);
 
 const clientesSchema = new mongoose.Schema({
     nombre: String,
