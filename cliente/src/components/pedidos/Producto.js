@@ -18,7 +18,12 @@ class Producto extends Component {
                         className="form-control"
                         step="1"
                         min="1"
-                        onChange={e => this.props.actualizarCantidad(e.target.value, this.props.index)}
+                        onChange={e => {
+                            if(e.target.value > producto.stock){
+                                e.target.value = producto.stock;
+                            }
+                            this.props.actualizarCantidad(e.target.value, this.props.index)
+                        }}
                     /></td>
                     <td>
                         <button 

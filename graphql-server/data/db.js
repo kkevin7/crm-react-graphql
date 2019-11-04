@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 
 mongoose.Promise = global.Promise;
 
@@ -34,4 +34,14 @@ const productosSchema = new mongoose.Schema({
 });
 const Productos = mongoose.model('productos', productosSchema);
 
-export {Clientes, Productos}
+//Pedidos
+const pedidoSchema = new mongoose.Schema({
+  pedido: Array,
+  total: Number,
+  fecha: Date,
+  cliente: String,
+  estado: String
+});
+const Pedidos = mongoose.model('pedidos', pedidoSchema);
+
+export {Clientes, Productos, Pedidos}

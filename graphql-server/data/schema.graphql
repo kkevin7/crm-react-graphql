@@ -6,16 +6,10 @@ type Cliente {
   emails: [Email]
   edad: Int
   tipo: TipoCliente
-  pedidos: [Pedido]
 }
 
 type Email {
   email: String
-}
-
-type Pedido {
-  producto: String
-  precio: Int
 }
 
 type Producto{
@@ -23,6 +17,20 @@ type Producto{
   nombre: String!
   precio: Float!
   stock: Int!
+}
+
+type Pedido{
+  id: ID
+  pedido: [PedidoProducto]
+  total: Float
+  fecha: String
+  cliente: ID
+  estado: EstadoPedido
+}
+
+type PedidoProducto{
+  id: ID
+  cantidad: Int
 }
 
 """
@@ -33,6 +41,11 @@ enum TipoCliente {
   PREMIUM
 }
 
+enum EstadoPedido{
+  PEDIENTE
+  COMPLETADO
+  CANCELADO
+}
 
 input PedidoInput {
   producto: String
@@ -64,6 +77,20 @@ input ProductoInput{
   stock: Int!
 }
 
+input PedidoInput{
+  id: ID
+  pedido: [PedidoProductoInput]
+  total: Float
+  fecha: String
+  cliente: ID
+  estado: EstadoPedido
+}
+
+input PedidoProductoInput{
+  id: ID
+  cantidad: Int
+}
+
 """ Consultas de clientes a la base de datos """
 type Query {
   """ Permite obtener todos lo registro o un registro especifico """
@@ -73,7 +100,7 @@ type Query {
   """" Count the record of request"""
   totalClientes: String
   #Productos
-  obtenerProductos(limite: Int, offset: Int) : [Producto]
+  obtenerProductos(limite: Int, offset: Int, stock: Boolean) : [Producto]
   obtenerProducto(id: ID!) : Producto
   totalProductos: String
 }
@@ -96,4 +123,6 @@ type Mutation {
   nuevoProducto(input: ProductoInput) : Producto
   actualizarProducto(input: ProductoInput): Producto
   eliminarProducto(id: ID!) : String
+  #Pedidos
+  nuevoPedido(input: PedidoInput): Pedido
 }
