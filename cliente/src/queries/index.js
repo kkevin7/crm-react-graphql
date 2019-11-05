@@ -55,3 +55,18 @@ query obtenerProducto($id: ID!){
   }
 }
 `;
+
+export const OBTENER_PEDIDO = gql`
+query obtenerPedidos($cliente: String){
+  obtenerPedidos(cliente: $cliente){
+    id
+    total
+    fecha
+    estado
+    pedido{
+      id
+      cantidad
+    }
+  }
+}
+`;

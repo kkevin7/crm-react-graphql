@@ -42,7 +42,7 @@ enum TipoCliente {
 }
 
 enum EstadoPedido{
-  PEDIENTE
+  PENDIENTE
   COMPLETADO
   CANCELADO
 }
@@ -103,6 +103,8 @@ type Query {
   obtenerProductos(limite: Int, offset: Int, stock: Boolean) : [Producto]
   obtenerProducto(id: ID!) : Producto
   totalProductos: String
+  #Obtener pedidos
+  obtenerPedidos(cliente: String) : [Pedido]
 }
 
 
@@ -125,4 +127,5 @@ type Mutation {
   eliminarProducto(id: ID!) : String
   #Pedidos
   nuevoPedido(input: PedidoInput): Pedido
+  actualizarEstado(input: PedidoInput): String
 }
