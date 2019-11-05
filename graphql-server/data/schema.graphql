@@ -109,7 +109,7 @@ type Query {
   obtenerProducto(id: ID!) : Producto
   totalProductos: String
   #Obtener pedidos
-  obtenerPedidos(cliente: String) : [Pedido]
+  obtenerPedidos(cliente: ID) : [Pedido]
   #Gráficas
   topClientes: [ClienteTotal]
 }

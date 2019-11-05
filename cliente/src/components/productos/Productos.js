@@ -68,8 +68,18 @@ paginaSiguiente = () => {
                 <tbody>
                     {data.obtenerProductos.map(item => {
                         const {id} = item;
+                        const {stock} = item;
+                        let clase;
+                        if(stock < 5){
+                            clase = 'table-danger text-light';
+                        }else if(stock > 5 && stock <= 10){
+                            clase = 'table-warning text-light';
+                        }else{
+                            clase = '';
+                        }
+
                         return (
-                            <tr key={id}>
+                            <tr key={id} className={clase}>
                             <td>{item.nombre}</td>
                             <td>{item.precio}</td>
                             <td>{item.stock}</td>
