@@ -33,6 +33,11 @@ type PedidoProducto{
   cantidad: Int
 }
 
+type ClienteTotal{
+  total: Float
+  cliente: [Cliente]
+}
+
 """
 Asigna la categoria del cliente
 """
@@ -105,6 +110,8 @@ type Query {
   totalProductos: String
   #Obtener pedidos
   obtenerPedidos(cliente: String) : [Pedido]
+  #Gráficas
+  topClientes: [ClienteTotal]
 }
 
 
